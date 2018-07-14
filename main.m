@@ -22,4 +22,10 @@ for i=1:L
   C(i,1:end) = [A(1,1:M) A(2:L,M)'];
 endfor
 
-C(1,1:end)+ C(2,1:end) + C(3,1:end)
+m = 3;
+h = 1;
+
+x_L = C(1,1:end);
+x_H = C(2,1:end) + C(3,1:end);
+
+
