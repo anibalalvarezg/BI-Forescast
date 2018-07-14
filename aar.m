@@ -15,11 +15,10 @@ function [y_pred]= aar(x,m,h)
   
   Y = vector_r(:,1);
   X = vector_r(:,2:end);
-  a = X'*Y;
+  a = pinv(X)*Y;
   
   suma_pred = 0;
   for i=1:m
-    X(N,i)
     suma_pred+= a(i)* X(N,i);
   endfor
   

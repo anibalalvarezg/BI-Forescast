@@ -7,7 +7,7 @@ max_value = max(data);
 
 for i=1:dim_data
   data(i) = (data(i)-min_value) / (max_value - min_value);
-end
+endfor
 
 
 dim_data_tr = floor(dim_data * 0.8);
