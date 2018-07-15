@@ -4,7 +4,7 @@ load_data
 x = x_tr';
 
 #Numero filas
-L = 150; 
+L = 8; 
 N = columns(x);
 
 #Numero Columnas
@@ -21,7 +21,7 @@ for i=1:L
   C(i,1:end) = [A(1,1:M) A(2:L,M)'];
 endfor
 
-m = 40;
+m = 200;
 h = 1;
 
 x_L = C(1,1:end);
