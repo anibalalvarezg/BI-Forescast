@@ -1,3 +1,4 @@
+
 # Load data #
 data = load('TSerieEjemplo.txt');
 dim_data = size(data,1);
