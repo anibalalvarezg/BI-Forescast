@@ -1,26 +1,16 @@
 function [y_pred]= aar(x,m,h)
-  N = columns(x);
+  a = arr_tr(x,m,h);
   
-  vector_r = zeros(N,m+1);
-
-  for i=1:columns(x)
-    for j = 1:m+1
-      if i >= j
-        vector_r(i,j) = x(i-j+1);
-      else
-        vector_r(i,j) = 0;
-      endif
+  y_pred = zeros(1,147);
+  
+  x_n = x(1,end-m+1:end);
+  for j = 1:147
+    suma_pred = 0;
+    for i=1:m
+      suma_pred+= a(i)* x_n(1,i);
     endfor
+    y_pred(j) = suma_pred;
+    x_n = x_n(x_n~=x_n(1));
+    x_n = [x_n y_pred(j)];
   endfor
-  
-  Y = vector_r(:,1);
-  X = vector_r(:,2:end);
-  a = pinv(X)*Y;
-  
-  suma_pred = 0;
-  for i=1:m
-    suma_pred+= a(i)* X(N,i);
-  endfor
-  
-  y_pred = suma_pred;
 end
