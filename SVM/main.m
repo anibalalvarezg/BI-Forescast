@@ -40,36 +40,36 @@ if(training)
   end
 end
 if(testing)
+  load(['','results.mat']);
   
-  filedtrn = strcat("dataResults.mat");
-  load(filedtrn);
-  
-  for lag=1:length(lags)
-    [x_L x_H] = hsvd(x_tr', lags(lag));
+   for lag=1:length(lags)
     
-    fprintf("LAG %d\n", lags(lag));
+    % divide training en Alta y Baja frecuencia
+    [x_L x_H] = hsvd(y', lags(lag));
+    
+    %fprintf("LAG %d\n", lags(lag));
     results{lag}.error = [];
     % Se predice desde h=1 hasta h=dtst
     results{lag}.zv = [];
     for h=horizonte(1):horizonte(2)
-      fprintf("H=%d\n", h);
+      %fprintf("H=%d\n", h);
       % BAJA FRECUENCIA
+      [HL, M, L] = vect_reg(mejorMem-1,x_L');
       %[HL, M, L] = MatrizHankel(bestMemory.memory-1,XL);
-      [HL, M, L] = vect_reg(mejorMem+h-1,x_L');
       xe = HL(size(HL)(1):size(HL)(1), :);
       % Se testea
       zvFinal = testSvm(xe, results{lag}.L{h});
       
       % ALTA FRECUENCIA
+      [HH, M, L] = vect_reg(mejorMem-1,x_H');
       %[HH, M, L] = MatrizHankel(bestMemory.memory-1,XH);
-      [HL, M, L] = vect_reg(mejorMem+h-1,x_H');
       xe = HH(size(HH)(1):size(HH)(1), :);
       % Se testea
       zvFinal = zvFinal + testSvm(xe, results{lag}.H{h});
       
       results{lag}.zv = [results{lag}.zv; zvFinal(1,1)];
       
-      error = (zvFinal(1,1)-dataResults(h,1))**2;
+      error = (zvFinal(1,1)-y(h))**2;
       results{lag}.error = [results{lag}.error; error];
     end    
   end
