@@ -9,10 +9,10 @@ function [Bmlp] = mlp(xe,ye)
   mseTestArr = [];
   Bmlp = [];
   Bmlp.mse = 1000;
-  for i = 1:HL
+  for i = 1:1
     clear mlp;
     printf('\n======== Topologia %d ========', i);
-    vector = M(i,1:end);
+    vector = M(5,1:end);
     vector = vector(vector ~= 0);
     printf("\n Topologia Hlayer:");
     disp(vector);
@@ -28,33 +28,8 @@ function [Bmlp] = mlp(xe,ye)
         Bmlp = mlp;
       end
     end
-    zv = mlp_test(xv,Bmlp.W);
-
-    MC = matrix_c(zv,yv);
-
-    VP = MC(1,1);
-    FP = MC(1,2);
-    FN = MC(2,1);
-    VN = MC(2,2);
-
-    P = (VP) / (VP + FP);
-    R = (VP) / (VP + FN);
-    F = 2 * ((P*R)/(P+R));
-    A = (VP + VN) / (VP + FP + VN + FN);
-    
-    mseTest = mean((yv - zv).^2);
-    
-    printf('Precision: %f \n',P);
-    printf('Exactitud: %f \n',A);
-    printf('F-score: %f \n',F);
-    printf('Recall: %f \n',R);
-    printf('Min mse: %f \n\n', min(mlp.mse));
-    printf('mse test: %f', mean((yv - zv).^2));
-    minMseTps = [minMseTps min(mlp.mse)];
-    mseTestArr = [mseTestArr mseTest];
-
   end
-
+  save(['','Bmlp.mat'],'Bmlp');
 #  figure(1);
 #  x=[1 2 3 4 5 6 7 8 9 10];
 #  plot(x,mseTestArr);

@@ -1,8 +1,8 @@
 function [norm_data] = normalize_data(data)
-#  min = 0;
-#  max = 1;
+  minimum = 0;
+  maximum = 1;
   % TSerie = load("./data/SerieTesting.txt");
   max_value = max(data);
   min_value = min(data);
-  norm_data = (data - min_value)/(max_value-min_value);
+  norm_data = (maximum-minimum) * (data - min_value)/(max_value-min_value)+minimum;
 end
