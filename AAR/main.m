@@ -20,8 +20,8 @@ endfor
 y_tr_tst = x_tst(h+m+1:end);
 y_pred = y_pred';
 
-hold on;
-  plot(1:columns(y_tr_tst),y_tr_tst);
-  plot(1:columns(y_pred),y_pred,"r");
-  legend('Actual Value','Estimated Value');
-hold off;
+#hold on;
+#  plot(1:columns(y_tr_tst),y_tr_tst);
+#  plot(1:columns(y_pred),y_pred,"r");
+#  legend('Actual Value','Estimated Value');
+#hold off;

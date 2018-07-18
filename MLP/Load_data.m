@@ -1,7 +1,6 @@
 data = load('TSerieEjemplo.txt');
 dim_data = size(data,1);
 
-
 # Normalización #
 min_value = min(data);
 max_value = max(data);
@@ -17,5 +16,5 @@ y = data(dim_data_tr+1:end);
 
 %transpose vectors
 x_tr = x_tr';
-y = y';
+x_tst = y';
 

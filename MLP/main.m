@@ -6,15 +6,11 @@ L = 8;
 m = 25;
 h = 1;
 
-vector_r_L = vector_reg(x_L,m,h);
-ye_L = vector_r_L(:,1)';
-xe_L = fliplr(vector_r_L(:,2:end))';
+#[Bmlp_H,Bmlp_L] = main_train(x_L,x_H,m,h);
+Load(['','Bmlp.mat']);
 
-vector_r_H = vector_reg(x_H,m,h);
-ye_H = vector_r_H(:,1)';
-xe_H= fliplr(vector_r_H(:,2:end))';
+[y_L, y_H] = hsvd(x_tst,L);
+  
+zv = mlp_test(xv,Bmlp.W);
 
-Bmlp_L = mlp(xe_L,ye_L);
-Bmlp_H = mlp(xe_H,ye_H);
-save(['','Bmlp.mat'],'Bmlp_L','Bmlp_H');
-#Bmlp_H = mlp(xe_H,ye_H);
+ 
