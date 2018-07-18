@@ -34,7 +34,7 @@ data = normalize_data(data);
 # División data en tr y tst #
 dim_data_tr = floor(dim_data * 0.75);
 x_tr = data(1:dim_data_tr);
-y_tr = data(dim_data_tr+1:end); 
+x_tst = data(dim_data_tr+1:end); 
 x_tr = x_tr';
-y_tr = y_tr';
+x_tst = x_tst';
 
