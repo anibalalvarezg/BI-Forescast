@@ -1,4 +1,4 @@
-function [x_L,x_H]= hankel(x,L)
+function [x_L,x_H]= hsvd(x,L)
   N = columns(x);
   
   #Columnas

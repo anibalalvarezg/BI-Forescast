@@ -36,4 +36,6 @@ endfor
 dim_data_tr = floor(dim_data * 0.75);
 x_tr = data(1:dim_data_tr);
 y_tr = data(dim_data_tr+1:end); 
+x = x_tr';
+y_tr = y_tr';
 

@@ -1,4 +1,4 @@
-function [a]= aar_tr(x,m,h)
+function [vector_r]= vector_reg(x,m,h)
   #len = length(x)-m-h+1;
 
   #for i=1:len
@@ -18,12 +18,8 @@ function [a]= aar_tr(x,m,h)
     endfor
   endfor
   
-  #vector_r = vector_r(m+1:end,:);
+  vector_r = vector_r(m+1:end,:);
 
-  Y = vector_r(:,1);
-  X = vector_r(:,2:end);
-  X = fliplr(X);
-  a = pinv(X)*Y;
 #====#
   #x_n = x(1,end-m+1:end);
   #suma_pred = 0;

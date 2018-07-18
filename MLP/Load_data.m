@@ -1,7 +1,8 @@
 data = load('TSerieEjemplo.txt');
-dim_data = size(data,1)
-# Normalización #
+dim_data = size(data,1);
 
+
+# Normalización #
 min_value = min(data);
 max_value = max(data);
 
@@ -12,10 +13,9 @@ endfor
 %split data for trainning (xe;ye) and test (xv;yv)
 dim_data_tr = floor(dim_data * 0.75);
 x_tr = data(1:dim_data_tr);
-y_tr = data(dim_data_tr+1:end); 
+y = data(dim_data_tr+1:end); 
 
 %transpose vectors
 x_tr = x_tr';
-y_tr = y_tr';
-
+y = y';
 
