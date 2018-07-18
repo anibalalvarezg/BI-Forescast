@@ -18,7 +18,7 @@ function [Bmlp] = mlp(xe,ye)
     disp(vector);
     printf("\n");
     
-    mlp.MaxIter = 5*1e3;
+    mlp.MaxIter = 2*1e3;
     mlp.mu = 1e-3;
     mlp.Hlayer = [vector];
     for o=1:10

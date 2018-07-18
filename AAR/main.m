@@ -11,7 +11,7 @@ Ls = [4 6 8 10];
 Ms = [20 25 30 35];
 Hs = [1:20];
 
-for l = 1:length(LS)
+for l = 1:length(Ls)
   [a_L, a_H] = main_train(Ls(l),m,h,x_tr);
 endfor
 
