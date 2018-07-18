@@ -1,0 +1,23 @@
+# Created by Octave 4.2.2, Wed Jul 18 00:43:17 2018 GMT <unknown@unknown>
+# name: config
+# type: scalar struct
+# ndims: 2
+ 1 1
+# length: 3
+# name: L
+# type: scalar
+4
+
+
+# name: m
+# type: scalar
+30
+
+
+# name: h
+# type: scalar
+1
+
+
+
+
