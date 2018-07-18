@@ -3,5 +3,5 @@ function [zv] = mlp_test(xv, W)
   z = mlp_fp(xv,W);
   zv = z(L,:);
   zv = cell2mat(zv);
-  zv = round(zv);
+  %zv = round(zv);
 end
