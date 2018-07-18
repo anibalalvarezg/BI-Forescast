@@ -15,5 +15,6 @@ ye_H = vector_r_H(:,1)';
 xe_H= fliplr(vector_r_H(:,2:end))';
 
 Bmlp_L = mlp(xe_L,ye_L);
-
+Bmlp_H = mlp(xe_H,ye_H);
+save(['','Bmlp.mat'],'Bmlp_L','Bmlp_H');
 #Bmlp_H = mlp(xe_H,ye_H);
