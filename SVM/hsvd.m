@@ -22,7 +22,8 @@ function [x_L,x_H]= hsvd(tSerie,lag)
     end
   end
   
-  XL = [XLaux(1, :) XLaux(2:size(XLaux)(1), size(XLaux)(2))'];
-  XH = [XHaux(1, :) XHaux(2:size(XHaux)(1), size(XHaux)(2))'];
-
+  x_L = [XLaux(1, :) XLaux(2:size(XLaux)(1), size(XLaux)(2))'];
+  %x_L';
+  x_H = [XHaux(1, :) XHaux(2:size(XHaux)(1), size(XHaux)(2))'];
+  %x_H';
 end
