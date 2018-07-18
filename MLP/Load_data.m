@@ -1,4 +1,4 @@
-data = load('TSerieEjemplo.txt');
+data = load('dataseth.txt');
 dim_data = size(data,1);
 
 # Normalización #
