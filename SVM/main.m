@@ -1,26 +1,56 @@
 Load_data
 
 %lag = 30;
-memories = [ 15 10 ];
-lags = [ 7 2 ];
+memories = [ 5 15 ];
+lags = [ 2 3 ];
 %training = 80;
 horizonte = [1 2];
 results = [];
-training = false;
-testing = true;
+training = true;
+testing = false;
 
 %mejMem = memRest(lags(1), memories);
 
 mejorMem = 20;
-svm.Gamma = 4;
-svm.Sigma2 = 2;
+%svm.Gamma = 4;
+%svm.Sigma2 = 2;
+
+function [Param] = svm_grid();
+  for i = 1:5
+    c(i) = 2.^i
+  end
+  for i2 = 1:3
+    j = -2:1:2;
+    g(i2) = 10.^j(i2)
+  end
+  colC = columns(c);
+  colG = columns(g);
+  k = 1;
+  for i=1:colC
+    for j=1:colG
+      Param(k).Gamma = c(i);
+      Param(k).Sigma2 = g(j);
+      k++;
+    end
+  end
+end
+
 
 if(training)
-  for lag=1:length(lags)
-    [x_L x_H] = hsvd(x_tr', lags(lag));
-    results{lag}.lag = lags(lag);
-      results{lag}.error = [];
-      results{lag}.zv = [];
+
+  [Param] = svm_grid();
+  svm.KerType = 'RBF';
+  MaxIter = numel(Param);
+  PrevErr = 200;
+  for i = 1:MaxIter
+    svm.Gamma = Param(i).Gamma;
+    svm.Sigma2 = Param(i).Sigma2;
+
+    for lag=1:length(lags)
+      [x_L x_H] = hsvd(x_tr', lags(lag));
+      results{lag}.lag = lags(lag);
+      %results{lag}.error = [];
+      %results{lag}.zv = [];
 
       for h=1:horizonte(1):horizonte(2)
       %fprintf("H=%d\n", h);
@@ -36,7 +66,8 @@ if(training)
         ye = HH(:, size(HH)(2));
         % Se entrena
         results{lag}.H{h} = svmTrain(xe, ye, svm);
-      end  
+      end
+    end
   end
 end
 if(testing)
