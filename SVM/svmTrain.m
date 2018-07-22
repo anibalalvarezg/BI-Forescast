@@ -1,6 +1,6 @@
-function [a b] = svmTrain(xe, ye, svm) 
-  a = 0;
-  b = 0;
+function [svm] = svmTrain(xe, ye, svm) 
+  svm.a = 0;
+  svm.b = 0;
   colXe = columns(xe);
   filaXe = rows(xe);
   In = eye(filaXe);
@@ -22,6 +22,6 @@ function [a b] = svmTrain(xe, ye, svm)
   v = inv(H) * ye;
   s = ones(1,filaXe)*miu;
   auxMiu = miu';
-  b = (auxMiu * ye) / s;
-  a = v - miu*b;
+  svm.b = (auxMiu * ye) / s;
+  svm.a = v - miu*svm.b;
 end

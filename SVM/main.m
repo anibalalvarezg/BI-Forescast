@@ -6,8 +6,8 @@ lags = [ 2 3 ];
 %training = 80;
 horizonte = [1 2];
 results = [];
-training = false;
-testing = true;
+training = true;
+testing = false;
 
 %mejMem = memRest(lags(1), memories);
 
