@@ -18,8 +18,17 @@ y_L = fliplr(y_L);
 
 vector_r_H= vector_reg(y_H,m,h);
 y_H = vector_r_H(:,2:end);
-y_H = fliplr(X);  
+y_H = fliplr(y_H);  
   
 zv =mlp_test(y_L,Bmlp_L.W)+mlp_test(y_H,Bmlp_H.W)
+
+
+y_pred = y_pred';
+
+hold on;
+  plot(1:columns(y_pred),y_pred);
+  plot(1:columns(zv),zv,"r");
+  legend('Actual Value','Estimated Value');
+hold off;
 
    
