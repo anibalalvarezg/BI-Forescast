@@ -24,22 +24,21 @@ if(train)
         vector_r = vector_reg(x_H,M(m)+H(h)-1);
         ye_H = vector_r(:,1);
         xe_H = vector_r(:,h+1:end);
-
-        
+     
         a_L = pinv(xe_L) * ye_L;
-        a_H = pinv(xe_L) * ye_H;
+        a_H = pinv(xe_H) * ye_H;
         
         result_train{l}.memory{m}.h{h}.a_L = a_L;
         result_train{l}.memory{m}.h{h}.a_H= a_H;
       endfor
     endfor
   endfor
-  save(['','result_train.mat'],'result_train');
+  save(['','result_trainAR.mat'],'result_train');
 endif
 
 %test
 if(test)
-  load(['','result_train.mat']);
+  load(['','result_trainAR.mat']);
 
   for l=1:length(L)
     result_test{l}.L = L(l);
@@ -49,6 +48,7 @@ if(test)
 
       for h=1:length(H)
         result_test{l}.memory{m}.h{h}.H = H(h);
+        
         vector_r = vector_reg(y_L,M(m)+H(h)-1);
         xv_L = vector_r(:,h+1:end);
         a_L = result_train{l}.memory{m}.h{h}.a_L;
@@ -70,5 +70,5 @@ if(test)
       endfor
     endfor
   endfor
-  save(['','result_test.mat'],'result_test');
+  save(['','result_testAR.mat'],'result_test');
 endif
