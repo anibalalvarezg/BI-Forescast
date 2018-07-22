@@ -1,8 +1,10 @@
 function [svm] = svmTrain(xe, ye, svm) 
   svm.a = 0;
   svm.b = 0;
+  svm.xe = 0;
   colXe = columns(xe);
   filaXe = rows(xe);
+  svm.xe = xe;
   In = eye(filaXe);
   k = [];
   for i = 1:filaXe

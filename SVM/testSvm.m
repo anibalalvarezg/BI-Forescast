@@ -1,11 +1,15 @@
-function [zv] = svm_tst(xe,xv,svm)
-  numFilaXe = rows(xe);
+function [zv] = testSvm(xv,svm)
+  svm.xe
+  numFilaXe = rows(svm.xe);
   numFilaXv = rows(xv);
+  svm.a
+  svm.b
   zv = [];
   for i = 1:numFilaXv
     k2 = [];
     for j = 1: numFilaXe
-        suma = xv(i,:) - xe(j,:);
+        suma = xv(i,:) - svm.xe(j,:);
+        %suma = xe(:,i) - xv(:,j);
         suma = suma.^2;
         suma = sum(suma);
         suma = sqrt(suma);
