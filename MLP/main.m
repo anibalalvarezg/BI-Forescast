@@ -1,34 +1,83 @@
 % Parameter Setup
 Load_data
-L = 8;
-[x_L,x_H]= hsvd(x_tr,L);
-
-m = 25;
+L = 2;
+m = 35;
 h = 1;
 
-[Bmlp_H,Bmlp_L] = main_train(x_L,x_H,m,h);
+L = [2];
+M = [20 25 30 35];
+H = 1:25;
 
+train = true;
+test  = false;
+
+if (train)
+  for l=1:length(L)
+    result_train{l}.L = L(l);
+    [x_L,x_H]= hsvd(x_tr,L(l));
+    for m=1:length(M)      
+      result_train{l}.memory{m}.M = M(m);
+      for h=1:length(H)  
+        result_train{l}.memory{m}.h{h}.H = H(h);
+
+        vector_r = vector_reg(x_L,M(m)+h-1);
+        ye_L = vector_r(:,1)';
+        xe_L = vector_r(:,h+1:end)';
+
+        vector_r = vector_reg(x_H,M(m)+h-1);
+        ye_H = vector_r(:,1)';
+        xe_H = vector_r(:,h+1:end)';
+
+        result_train{l}.memory{m}.h{h}.Bmlp_L = mlp(xe_L,ye_L)';
+        result_train{l}.memory{m}.h{h}.Bmlp_H = mlp(xe_H,ye_H)';
+      endfor
+    endfor
+  endfor  
+  save(['','result_trainMLP.mat'],'result_train');
+endif
+
+if (test)
 #Load(['','Bmlp.mat']);
+  load(['','result_trainMLP.mat']);
+  for l=1:length(L)
+    [y_L, y_H] = hsvd(x_tst,L(l));
+    result_test{l}.L = L(l);
 
-[y_L, y_H] = hsvd(x_tst,L);
-  
-vector_r_L = vector_reg(y_L,m,h);
-y_L = vector_r_L(:,2:end);
-y_L = fliplr(y_L);  
+    for m=1:length(M)  
+      result_test{l}.memory{m}.M = M(m);
+      for h=1:length(H)
+        result_test{l}.memory{m}.h{h}.H = H(h);
 
-vector_r_H= vector_reg(y_H,m,h);
-y_H = vector_r_H(:,2:end);
-y_H = fliplr(y_H);  
-  
-zv =mlp_test(y_L,Bmlp_L.W)+mlp_test(y_H,Bmlp_H.W)
+        vector_r = vector_reg(y_L,M(m)+h-1);
+        xv_L = vector_r(:,h+1:end)';
+        
+        vector_r = vector_reg(y_H,M(m)+h-1);
+        xv_H = vector_r(:,h+1:end)';
+        
+        Bmlp_L = result_train{l}.memory{m}.h{h}.Bmlp_L;
+        Bmlp_H = result_train{l}.memory{m}.h{h}.Bmlp_H; 
+        
+        zv =mlp_test(xv_L,Bmlp_L.W)+mlp_test(xv_H,Bmlp_H.W);
+        
+        result_test{l}.memory{m}.h{h}.zv = zv;
+        
+                
+        mse = mse_function(zv,x_tst(m+1:end));
+        result_test{l}.memory{m}.h{h}.mse = mse;
+        
+        mnsc = mnse_function(zv,x_tst(m+1:end));
+        result_test{l}.memory{m}.h{h}.mnsc = mnsc;
+        
+      endfor
+    endfor
+  endfor
+#y_pred = y_pred';
+  save(['','result_testMLP.mat'],'result_test');
+endif
 
-
-y_pred = y_pred';
-
-hold on;
-  plot(1:columns(y_pred),y_pred);
-  plot(1:columns(zv),zv,"r");
-  legend('Actual Value','Estimated Value');
-hold off;
-
+#hold on;
+#  plot(1:length(zv),zv,"r");
+#  plot(1:length(zv),x_tst(m+1:end),"b");
+#  legend("Pronóstico","Real");
+#hold of;
    

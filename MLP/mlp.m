@@ -1,24 +1,26 @@
 function [Bmlp] = mlp(xe,ye) 
-  HL = 5;
+  HL = 7;
   M = [57   0   0   0   0;
        71   34   0   0   0;
        4   29   0   0   0;
        80  0 0   0   0;
-       171   74   0   0   0;]
+       171   74   0   0   0;
+       80 70 0 0 0;
+       120 90 0 0 0;]
   minMseTps = [];
   mseTestArr = [];
   Bmlp = [];
   Bmlp.mse = 1000;
-  for i = 1:1
+  for i = 1:HL
     clear mlp;
     printf('\n======== Topologia %d ========', i);
-    vector = M(5,1:end);
+    vector = M(i,1:end);
     vector = vector(vector ~= 0);
     printf("\n Topologia Hlayer:");
     disp(vector);
     printf("\n");
     
-    mlp.MaxIter = 2*1e3;
+    mlp.MaxIter = 5*1e3;
     mlp.mu = 1e-3;
     mlp.Hlayer = [vector];
     for o=1:10

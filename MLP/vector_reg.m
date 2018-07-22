@@ -1,4 +1,4 @@
-function [vector_r]= vector_reg(x,m,h)
+function [vector_r]= vector_reg(x,m)
   #len = length(x)-m-h+1;
 
   #for i=1:len
