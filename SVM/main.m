@@ -6,8 +6,8 @@ lags = [ 2 3 ];
 %training = 80;
 horizonte = [1 2];
 results = [];
-training = true;
-testing = false;
+training = false;
+testing = true;
 
 %mejMem = memRest(lags(1), memories);
 
@@ -73,7 +73,7 @@ end
 if(testing)
   load(['','results.mat']);
   
-   for lag=1:length(lags)
+  for lag=1:length(lags)
     
     % divide training en Alta y Baja frecuencia
     [x_L x_H] = hsvd(y', lags(lag));
@@ -87,16 +87,16 @@ if(testing)
       % BAJA FRECUENCIA
       [HL, M, L] = vect_reg(mejorMem-1,x_L');
       %[HL, M, L] = MatrizHankel(bestMemory.memory-1,XL);
-      xe = HL(size(HL)(1):size(HL)(1), :);
+      xv = HL(size(HL)(1):size(HL)(1), :);
       % Se testea
-      zvFinal = testSvm(xe, results{lag}.L{h});
+      zvFinal = testSvm(results{lag}.L{h},xv,svm);
       
       % ALTA FRECUENCIA
       [HH, M, L] = vect_reg(mejorMem-1,x_H');
       %[HH, M, L] = MatrizHankel(bestMemory.memory-1,XH);
-      xe = HH(size(HH)(1):size(HH)(1), :);
+      xv = HH(size(HH)(1):size(HH)(1), :);
       % Se testea
-      zvFinal = zvFinal + testSvm(xe, results{lag}.H{h});
+      zvFinal = zvFinal + testSvm(results{lag}.H{h},xv,svm);
       
       results{lag}.zv = [results{lag}.zv; zvFinal(1,1)];
       
@@ -104,4 +104,9 @@ if(testing)
       results{lag}.error = [results{lag}.error; error];
     end    
   end
- end
+  hold on;
+  plot(1:columns(y),y);
+  plot(1:columns(results{lag}.zv),results{lag}.zv,"r");
+  legend('Actual Value','Estimated Value');
+  hold off;
+end
