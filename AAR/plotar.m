@@ -1,6 +1,6 @@
 load_data
-AR = true;
-ARX = false;
+AR = false;
+ARX = true;
 if AR
   load(['','result_testAR.mat']);
   load(['','result_paramAR.mat']);
