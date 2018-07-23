@@ -1,12 +1,23 @@
 load_data
-load(['','result_test.mat']);
+AR = true;
+ARX = false;
+if AR
+  load(['','result_testAR.mat']);
+  load(['','result_paramAR.mat']);
+endif
 
-zv = result_test{1}.memory{4}.h{1}.zv';
-L = result_test{1}.L;
-m = result_test{1}.memory{4}.M;
-h = result_test{1}.memory{4}.h{1}.H;
+if ARX
+  load(['','result_testARX.mat']);
+  load(['','result_paramARX.mat']);
+endif
 
-datatst = x_tst(m+1:end);
+zv = result_test{Param.L}.memory{Param.M}.h{Param.H}.zv';
+L = result_test{Param.L}.L;
+m = result_test{Param.L}.memory{Param.M}.M;
+h = result_test{Param.L}.memory{Param.M}.h{Param.H}.H;
+
+%datatst = x_tst(m+1:end);
+datatst = x_tst;
 pronostico = zv;
 p = polyfit(pronostico,datatst((length(datatst) - length(pronostico))+1:end),1) %% saco los valores y = 32173612873912x + b (los de antes de x y el b)
 f = polyval(p,pronostico);

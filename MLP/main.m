@@ -1,7 +1,7 @@
 % Parameter Setup
 Load_data
-L = 2;
-m = 35;
+L = 6;
+m = 20;
 h = 1;
 
 L = [2];

@@ -1,10 +1,16 @@
 load_data
 L = [2];
-M = [20 25 30 35];
-H = 1:25;
+M = [32];
+H = [10];
+
+Config.L = L;
+Config.M = M;
+Config.H = H;
+
+save(['','config_param.mat'],'Config');
 
 train = true;
-test = true;
+test  = true;
 
 %train
 if(train)
@@ -19,11 +25,11 @@ if(train)
 
         vector_r = vector_reg(x_L,M(m)+H(h)-1);
         ye_L = vector_r(:,1);
-        xe_L = vector_r(:,h+1:end);
+        xe_L = vector_r(:,H(h)+1:end);
 
         vector_r = vector_reg(x_H,M(m)+H(h)-1);
         ye_H = vector_r(:,1);
-        xe_H = vector_r(:,h+1:end);
+        xe_H = vector_r(:,H(h)+1:end);
      
         a_L = pinv(xe_L) * ye_L;
         a_H = pinv(xe_H) * ye_H;
@@ -50,7 +56,7 @@ if(test)
         result_test{l}.memory{m}.h{h}.H = H(h);
         
         vector_r = vector_reg(y_L,M(m)+H(h)-1);
-        xv_L = vector_r(:,h+1:end);
+        xv_L = vector_r(:,H(h)+1:end);
         a_L = result_train{l}.memory{m}.h{h}.a_L;
         y_pred_L = xv_L * a_L;
 
@@ -62,10 +68,18 @@ if(test)
         zv = y_pred_L + y_pred_H;
         result_test{l}.memory{m}.h{h}.zv = zv;
         
-        mse = mse_function(zv,x_tst(m+1:end));
+        x_tst2 = x_tst(M(m)+H(h):end);
+
+        mse = mse_function(zv,x_tst2);
         result_test{l}.memory{m}.h{h}.mse = mse;
         
-        mnsc = mnse_function(zv,x_tst(m+1:end));
+        r2 = r_function(zv,x_tst2);
+        result_test{l}.memory{m}.h{h}.r2 = r2;
+
+        mae = mae_function(zv,x_tst2);
+        result_test{l}.memory{m}.h{h}.mae = mae;
+
+        mnsc = mnse_function(zv,x_tst2);
         result_test{l}.memory{m}.h{h}.mnsc = mnsc;
       endfor
     endfor
