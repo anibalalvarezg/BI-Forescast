@@ -1,8 +1,5 @@
 % Parameter Setup
 Load_data
-L = 2;
-m = 35;
-h = 1;
 
 L = [2];
 M = [20 25 30 35];
@@ -72,5 +69,5 @@ if (test)
     endfor
   endfor
 #y_pred = y_pred';
-  save(['','result_testMLP.mat'],'result_test');
+  save(['','result_testMLPX.mat'],'result_test');
 endif
