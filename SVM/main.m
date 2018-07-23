@@ -1,10 +1,10 @@
 Load_data
 
 %lag = 30;
-memories = [ 5 15 ];
-lags = [ 2 3 ];
+memories = [ 40 10 45 ];
+lags = [ 6 7 8 ];
 %training = 80;
-horizonte = [1 2];
+horizonte = [1 1];
 results = [];
 training = false;
 testing = true;
@@ -19,7 +19,7 @@ function [Param] = svm_grid();
 for i = 1:5
   c(i) = 2.^i
 end
-for i2 = 1:3
+for i2 = 1:5
   j = -2:1:2;
   g(i2) = 10.^j(i2)
 end
@@ -70,44 +70,51 @@ for i = 1:MaxIter
     end
   end
 
-  if(testing)
-    load(['','results.mat']);
+end
+if(testing)
+  load(['','results.mat']);
+  mse = 9999;
+  for lag=1:length(lags)
     
-    for lag=1:length(lags)
+    % divide training en Alta y Baja frecuencia
+    [x_L x_H] = hsvd(y', lags(lag));
+    
+    %fprintf("LAG %d\n", lags(lag));
+    results{lag}.error = [];
+    % Se predice desde h=1 hasta h=dtst
+    results{lag}.zv = [];
+    for h=horizonte(1):horizonte(2)
+      %fprintf("H=%d\n", h);
+      % BAJA FRECUENCIA
+      [HL, M, L] = vect_reg(mejorMem-1,x_L');
+      %[HL, M, L] = MatrizHankel(bestMemory.memory-1,XL);
+      xv = HL(:, 1:(size(HL)(2)));
+      % Se testea
+      zvFinal = testSvm(xv,results{lag}.L{h});
       
-      % divide training en Alta y Baja frecuencia
-      [x_L x_H] = hsvd(y', lags(lag));
+      % ALTA FRECUENCIA
+      [HH, M, L] = vect_reg(mejorMem-1,x_H');
+      %[HH, M, L] = MatrizHankel(bestMemory.memory-1,XH);
+      xv = HH(:, 1:(size(HL)(2)));
+      % Se testea
+      zvFinal = zvFinal + testSvm(xv,results{lag}.H{h});
       
-      %fprintf("LAG %d\n", lags(lag));
-      results{lag}.error = [];
-      % Se predice desde h=1 hasta h=dtst
-      results{lag}.zv = [];
-      for h=horizonte(1):horizonte(2)
-        %fprintf("H=%d\n", h);
-        % BAJA FRECUENCIA
-        [HL, M, L] = vect_reg(mejorMem-1,x_L');
-        %[HL, M, L] = MatrizHankel(bestMemory.memory-1,XL);
-        xv = HL(:, 1:(size(HL)(2)));
-        % Se testea
-        zvFinal = testSvm(xv,results{lag}.L{h});
-        
-        % ALTA FRECUENCIA
-        [HH, M, L] = vect_reg(mejorMem-1,x_H');
-        %[HH, M, L] = MatrizHankel(bestMemory.memory-1,XH);
-        xv = HH(:, 1:(size(HL)(2)));
-        % Se testea
-        zvFinal = zvFinal + testSvm(xv,results{lag}.H{h});
-        
-        results{lag}.zv = [results{lag}.zv; zvFinal(1,1)];
-        
-        error = (zvFinal(1,1)-y(h))**2;
-        results{lag}.error = [results{lag}.error; error];
-      end    
-    end
-    hold on;
-    plot(1:columns(y),y);
-    plot(1:columns(results{lag}.zv),results{lag}.zv,"r");
-    legend('Actual Value','Estimated Value');
-    hold off;
+      results{lag}.zv = [results{lag}.zv; zvFinal(1,1)];
+      
+      error = (zvFinal(1,1)-y(h))**2;
+      results{lag}.error = [results{lag}.error; error];
+      if (error < mse)
+        mse = error;
+        zvBest = zvFinal;
+        hBest = h;
+      end
+    end    
   end
 end
+
+hold on;
+plot(1:length(zvBest),y(mejorMem-1+hBest:end));
+plot(1:length(zvBest),zvBest,"r");
+%plot(1:columns(results{lag}.zv),results{lag}.zv,"r");
+legend('Actual Value','Estimated Value');
+hold off;

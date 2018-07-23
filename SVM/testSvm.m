@@ -1,9 +1,6 @@
 function [zv] = testSvm(xv,svm)
-  svm.xe
   numFilaXe = rows(svm.xe);
   numFilaXv = rows(xv);
-  svm.a
-  svm.b
   zv = [];
   for i = 1:numFilaXv
     k2 = [];
@@ -19,6 +16,6 @@ function [zv] = testSvm(xv,svm)
     end
     zv(i) = (svm.a'*k2+svm.b);
   end
-  zv = round(zv);
+  %zv = round(zv);
   zv = zv';
 end
