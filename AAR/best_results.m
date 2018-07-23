@@ -1,4 +1,3 @@
-
 AR = true;
 ARX = false;
 

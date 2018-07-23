@@ -1,6 +1,6 @@
 
-AR = false;
-ARX = true;
+AR = true;
+ARX = false;
 
 if AR
   load(['','result_testAR.mat']);
@@ -32,7 +32,7 @@ hold on;
   plot(1:length(H),mejoras(2,1:end),"r-o");
   plot(1:length(H),mejoras(3,1:end),"g-o");
   plot(1:length(H),mejoras(4,1:end),"y-o");
-  legend("m=26","m=28","m=30","m=32");
+  legend("m=24","m=26","m=28","m=30");
   xlabel ("Horizonte");
   ylabel ("mNSE(%)");
 hold off;

@@ -1,6 +1,6 @@
 load_data
 L = [2];
-M = [32];
+M = [30];
 H = [10];
 
 Config.L = L;
