@@ -2,7 +2,7 @@ Load_data
 
 %lag = 30;
 memories = [ 40 10 45 ];
-lags = [ 6 7 8 ];
+lags = [ 6 7 5 ];
 %training = 80;
 horizonte = [1 1];
 results = [];
@@ -11,7 +11,7 @@ testing = true;
 
 %mejMem = memRest(lags(1), memories);
 
-mejorMem = 20;
+mejorMem = 10;
 %svm.Gamma = 4;
 %svm.Sigma2 = 2;
 
@@ -102,14 +102,21 @@ if(testing)
       results{lag}.zv = [results{lag}.zv; zvFinal(1,1)];
       
       error = (zvFinal(1,1)-y(h))**2;
+      mnse = mnse_function(zvFinal,y);
+      mae = mae_function(zvFinal,y);
+      r = r_function(zvFinal,y);
       results{lag}.error = [results{lag}.error; error];
       if (error < mse)
         mse = error;
         zvBest = zvFinal;
         hBest = h;
+        mnseBest = mnse;
+        maeBest = mae;
+        rBest = r;
       end
     end    
   end
+  
 end
 
 hold on;
@@ -118,3 +125,22 @@ plot(1:length(zvBest),zvBest,"r");
 %plot(1:columns(results{lag}.zv),results{lag}.zv,"r");
 legend('Actual Value','Estimated Value');
 hold off;
+
+datatst = y(mejorMem-1+hBest:end);
+pronostico = zvBest';
+p = polyfit(pronostico,datatst((length(datatst) - length(pronostico))+1:end),1) %% saco los valores y = 32173612873912x + b (los de antes de x y el b)
+f = polyval(p,pronostico);
+
+figure(2)
+hold on;
+plot(pronostico , datatst((length(datatst) - length(pronostico))+1:end),'o');
+plot(pronostico,f,'-r');
+plot(datatst((length(datatst) - length(pronostico))+1:end),datatst((length(datatst) - length(pronostico))+1:end),':b');
+hold off; 
+xlabel('X');
+ylabel('Y');
+%title("AR");
+legend("data point", "best linear fit", "Y=X")
+set(gca,'XTick',[0:5:100]);
+set(gca,'YTick',[0:5:100]);
+grid on
