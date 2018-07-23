@@ -1,7 +1,7 @@
 load_data
 L = [2];
-M = [24 26 28 30];
-H = [1:25];
+M = [30];
+H = [10];
 
 Config.L = L;
 Config.M = M;

@@ -1,5 +1,5 @@
-AR = true;
-ARX = false;
+AR = false;
+ARX = true;
 
 if AR
   load(['','result_testAR.mat']);

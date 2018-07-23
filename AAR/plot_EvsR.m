@@ -1,11 +1,7 @@
 load_data
-AR = true;
-ARX = false;
+AR = false;
+ARX = true;
 
-
-L = Config.L;
-M = Config.M;
-H = Config.H;
 
 if AR
   load(['','result_testAR.mat']);
@@ -18,6 +14,11 @@ if ARX
   load(['','result_paramARX.mat']);
   load(['','config_paramARX.mat']);
 endif
+
+L = Config.L;
+M = Config.M;
+H = Config.H;
+
 
 val_L = L(Param.L)
 val_M = M(Param.M)
