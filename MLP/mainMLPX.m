@@ -1,8 +1,8 @@
 % Parameter Setup
 Load_data
 
-L = [2 8];
-M = [30 25];
+L = [2 4 6];
+M = [20 22 24];
 H = [1];
 
 Config.L = L;

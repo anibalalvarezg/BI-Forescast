@@ -1,4 +1,4 @@
-data = load('dataseth.txt');
+data = load('dateset.txt');
 dim_data = size(data,1);
 
 # Normalización #

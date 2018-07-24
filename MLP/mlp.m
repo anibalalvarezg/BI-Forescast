@@ -14,7 +14,7 @@ function [Bmlp] = mlp(xe,ye)
   for i = 1:HL
     clear mlp;
     printf('\n======== Topologia %d ========', i);
-    vector = M(2,1:end);
+    vector = M(i,1:end);
     vector = vector(vector ~= 0);
     printf("\n Topologia Hlayer:");
     disp(vector);
