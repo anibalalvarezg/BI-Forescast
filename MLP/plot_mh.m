@@ -1,6 +1,6 @@
 
-MLP = true;
-MLPX = false;
+MLP = false;
+MLPX = true;
 
 if MLP
   load(['','result_testMLP.mat']);

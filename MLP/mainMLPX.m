@@ -3,10 +3,16 @@ Load_data
 
 L = [2 8];
 M = [30 25];
-H = 1;
+H = [1];
 
-train = true;
-test  = false;
+Config.L = L;
+Config.M = M;
+Config.H = H;
+
+save(['','config_paramMLPX.mat'],'Config');
+
+train = false;
+test  = true;
 
 if (train)
   for l=1:length(L)
@@ -57,12 +63,18 @@ if (test)
         zv =mlp_test(xv_L',Bmlp_L.W)+mlp_test(xv_H',Bmlp_H.W);
         
         result_test{l}.memory{m}.h{h}.zv = zv;
-        
-                
-        mse = mse_function(zv,x_tst(m+1:end));
+        x_tst2 = x_tst(M(m)+H(h):end);
+
+        mse = mse_function(zv,x_tst2);
         result_test{l}.memory{m}.h{h}.mse = mse;
         
-        mnsc = mnse_function(zv,x_tst(m+1:end));
+        r2 = r_function(zv,x_tst2);
+        result_test{l}.memory{m}.h{h}.r2 = r2;
+
+        mae = mae_function(zv,x_tst2);
+        result_test{l}.memory{m}.h{h}.mae = mae;
+
+        mnsc = mnse_function(zv,x_tst2);
         result_test{l}.memory{m}.h{h}.mnsc = mnsc;
         
       endfor

@@ -1,6 +1,6 @@
-load_data
-MLP = true;
-MLPX = false;
+Load_data
+MLP = false;
+MLPX = true;
 if MLP
   load(['','result_testMLP.mat']);
   load(['','result_paramMLP.mat']);
@@ -16,9 +16,9 @@ L = result_test{Param.L}.L;
 m = result_test{Param.L}.memory{Param.M}.M;
 h = result_test{Param.L}.memory{Param.M}.h{Param.H}.H;
 
-%datatst = x_tst(m+1:end);
-datatst = x_tst;
-pronostico = zv;
+datatst = x_tst(m+h:end);
+%datatst = x_tst;
+pronostico = zv';
 p = polyfit(pronostico,datatst((length(datatst) - length(pronostico))+1:end),1) %% saco los valores y = 32173612873912x + b (los de antes de x y el b)
 f = polyval(p,pronostico);
 
