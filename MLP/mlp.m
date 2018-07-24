@@ -5,25 +5,25 @@ function [Bmlp] = mlp(xe,ye)
        4   29   0   0   0;
        80  0 0   0   0;
        171   74   0   0   0;
-       80 70 0 0 0;
+       80 70 50 0 0;
        120 90 0 0 0;]
   minMseTps = [];
   mseTestArr = [];
   Bmlp = [];
   Bmlp.mse = 1000;
-  for i = 1:1
+  for i = 1:HL
     clear mlp;
     printf('\n======== Topologia %d ========', i);
-    vector = M(5,1:end);
+    vector = M(2,1:end);
     vector = vector(vector ~= 0);
     printf("\n Topologia Hlayer:");
     disp(vector);
     printf("\n");
     
-    mlp.MaxIter = 6*1e3;
+    mlp.MaxIter = 5*1e3;
     mlp.mu = 1e-3;
     mlp.Hlayer = [vector];
-    for o=1:8
+    for o=1:10
       mlp.W = mlp_inic_w(size(xe,1),size(ye,1),mlp.Hlayer);
       mlp=mlp_train(xe,ye,mlp); % Training MLP
       if Bmlp.mse(length(Bmlp.mse)) > mlp.mse(length(mlp.mse)) 

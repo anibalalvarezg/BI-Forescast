@@ -1,9 +1,9 @@
 % Parameter Setup
 Load_data
 
-L = [2];
-M = [20 25 30 35];
-H = 1:25;
+L = [8];
+M = [30];
+H = 1;
 
 train = true;
 test  = false;
@@ -17,25 +17,25 @@ if (train)
       for h=1:length(H)  
         result_train{l}.memory{m}.h{h}.H = H(h);
 
-        vector_r = vector_reg(x_L,M(m)+h-1);
-        ye_L = vector_r(:,1)';
-        xe_L = vector_r(:,h+1:end)';
+        vector_r = vector_reg(x_L,M(m)+H(h)-1);
+        ye_L = vector_r(:,1);
+        xe_L = vector_r(:,H(h)+1:end);
 
-        vector_r = vector_reg(x_H,M(m)+h-1);
-        ye_H = vector_r(:,1)';
-        xe_H = [xe_L vector_r(:,h+1:end)'];
+        vector_r = vector_reg(x_H,M(m)+H(h)-1);
+        ye_H = vector_r(:,1);
+        xe_H = [xe_L vector_r(:,h+1:end)];
 
-        result_train{l}.memory{m}.h{h}.Bmlp_L = mlp(xe_L,ye_L)';
-        result_train{l}.memory{m}.h{h}.Bmlp_H = mlp(xe_H,ye_H)';
+        result_train{l}.memory{m}.h{h}.Bmlp_L = mlp(xe_L',ye_L')';
+        result_train{l}.memory{m}.h{h}.Bmlp_H = mlp(xe_H',ye_H')';
       endfor
     endfor
   endfor  
-  save(['','result_trainMLP.mat'],'result_train');
+  save(['','result_trainMLPX.mat'],'result_train');
 endif
 
 if (test)
 #Load(['','Bmlp.mat']);
-  load(['','result_trainMLP.mat']);
+  load(['','result_trainMLPX.mat']);
   for l=1:length(L)
     [y_L, y_H] = hsvd(x_tst,L(l));
     result_test{l}.L = L(l);
@@ -46,15 +46,15 @@ if (test)
         result_test{l}.memory{m}.h{h}.H = H(h);
 
         vector_r = vector_reg(y_L,M(m)+h-1);
-        xv_L = vector_r(:,h+1:end)';
+        xv_L = vector_r(:,h+1:end);
         
         vector_r = vector_reg(y_H,M(m)+h-1);
-        xv_H = [xv_L vector_r(:,h+1:end)'];
+        xv_H = [xv_L vector_r(:,h+1:end)];
         
         Bmlp_L = result_train{l}.memory{m}.h{h}.Bmlp_L;
         Bmlp_H = result_train{l}.memory{m}.h{h}.Bmlp_H; 
         
-        zv =mlp_test(xv_L,Bmlp_L.W)+mlp_test(xv_H,Bmlp_H.W);
+        zv =mlp_test(xv_L',Bmlp_L.W)+mlp_test(xv_H',Bmlp_H.W);
         
         result_test{l}.memory{m}.h{h}.zv = zv;
         
