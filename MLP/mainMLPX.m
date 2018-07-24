@@ -1,8 +1,8 @@
 % Parameter Setup
 Load_data
 
-L = [8];
-M = [30];
+L = [2 8];
+M = [30 25];
 H = 1;
 
 train = true;
