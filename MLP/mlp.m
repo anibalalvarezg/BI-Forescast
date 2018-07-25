@@ -1,7 +1,7 @@
 function [Bmlp] = mlp(xe,ye) 
   HL = 2;
-  M = [80   50   70   0   0;
-       171   74   0   0;
+  M = [171  74 0  0 0;
+        80   50   70   0   0;
        4   29   0   0   0;
        80  0 0   0   0;
        171   74   0   0   0;
@@ -11,7 +11,7 @@ function [Bmlp] = mlp(xe,ye)
   mseTestArr = [];
   Bmlp = [];
   Bmlp.mse = 1000;
-  for i = 1:2
+  for i = 1:1
     clear mlp;
     printf('\n======== Topologia %d ========', i);
     vector = M(i,1:end);
