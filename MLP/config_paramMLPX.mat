@@ -1,4 +1,4 @@
-# Created by Octave 4.2.2, Wed Jul 25 12:13:51 2018 GMT <unknown@unknown>
+# Created by Octave 4.2.2, Wed Jul 25 15:00:52 2018 GMT <unknown@unknown>
 # name: Config
 # type: scalar struct
 # ndims: 2
@@ -10,15 +10,13 @@
 
 
 # name: M
-# type: matrix
-# rows: 1
-# columns: 2
- 20 30
+# type: scalar
+30
 
 
 # name: H
 # type: scalar
-1
+3
 
 
 

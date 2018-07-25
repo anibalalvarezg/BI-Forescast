@@ -2,8 +2,8 @@
 Load_data
 
 L = [12];
-M = [20 30];
-H = [1];
+M = [30];
+H = [3];
 
 Config.L = L;
 Config.M = M;
@@ -29,7 +29,7 @@ if (train)
 
         vector_r = vector_reg(x_H,M(m)+H(h)-1);
         ye_H = vector_r(:,1);
-        xe_H = [xe_L vector_r(:,h+1:end)];
+        xe_H = [xe_L vector_r(:,H(h)+1:end)];
 
         result_train{l}.memory{m}.h{h}.Bmlp_L = mlp(xe_L',ye_L')';
         result_train{l}.memory{m}.h{h}.Bmlp_H = mlp(xe_H',ye_H')';
@@ -51,11 +51,11 @@ if (test)
       for h=1:length(H)
         result_test{l}.memory{m}.h{h}.H = H(h);
 
-        vector_r = vector_reg(y_L,M(m)+h-1);
-        xv_L = vector_r(:,h+1:end);
+        vector_r = vector_reg(y_L,M(m)+H(h)-1);
+        xv_L = vector_r(:,H(h)+1:end);
         
-        vector_r = vector_reg(y_H,M(m)+h-1);
-        xv_H = [xv_L vector_r(:,h+1:end)];
+        vector_r = vector_reg(y_H,M(m)+H(h)-1);
+        xv_H = [xv_L vector_r(:,H(h)+1:end)];
         
         Bmlp_L = result_train{l}.memory{m}.h{h}.Bmlp_L;
         Bmlp_H = result_train{l}.memory{m}.h{h}.Bmlp_H; 

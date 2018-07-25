@@ -14,6 +14,9 @@ dim_data = size(data,1);
 
 %split data for trainning (xe;ye) and test (xv;yv)
 dim_data_tr = floor(dim_data * 0.70);
+pkg load signal;
+[b,a] = butter(5,1/3);
+data = filtfilt(b,a,data);
 x_tr = data(1:dim_data_tr);
 y = data(dim_data_tr+1:end); 
 
