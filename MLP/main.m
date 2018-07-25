@@ -1,8 +1,8 @@
 % Parameter Setup
 Load_data
 
-L = [7];
-M = [29];
+L = [2];
+M = [30];
 H = [1];
 
 Config.L = L;
@@ -11,8 +11,8 @@ Config.H = H;
 
 save(['','config_paramMLP.mat'],'Config');
 
-train = true;
-test  = false;
+train = false;
+test  = true;
 
 if (train)
   for l=1:length(L)
