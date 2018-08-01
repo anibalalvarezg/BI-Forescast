@@ -25,7 +25,6 @@ for l=1:length(L)
       M(m)
       aux_mse = result_test{l}.memory{m}.h{h}.mse
       aux_mnsc = result_test{l}.memory{m}.h{h}.mnsc
-      
       if aux_mse < mse
         Param.L = l;
         Param.H = h;

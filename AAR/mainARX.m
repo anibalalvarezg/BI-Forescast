@@ -11,6 +11,7 @@ save(['','config_paramARX.mat'],'Config');
 
 train = true;
 test = true;
+best = true;
 
 %train
 if(train)
@@ -84,4 +85,34 @@ if(test)
     endfor
   endfor
   save(['','result_testARX.mat'],'result_test');
+endif
+
+if best
+  load(['','result_testARX.mat']);
+  load(['','config_paramARX.mat']);
+
+
+  L = Config.L;
+  M = Config.M;
+  H = Config.H;
+
+  mse = 99999;
+
+  result_ = zeros(length(M),length(H));
+
+  for l=1:length(L)
+    for m=1:length(M)
+      for h=1:length(H)
+        M(m)
+        aux_mse = result_test{l}.memory{m}.h{h}.mse
+        aux_mnsc = result_test{l}.memory{m}.h{h}.mnsc
+        if aux_mse < mse
+          Param.L = l;
+          Param.H = h;
+          Param.M = m;
+          mse = aux_mse;
+        endif
+      end
+    end
+  endfor
 endif
