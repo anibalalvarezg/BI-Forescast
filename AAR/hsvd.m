@@ -11,7 +11,6 @@ function [x_L,x_H]= hsvd(x,L)
       H(i,j) = x(i+j-1);
     end
   end
-
   [U,S,V] = svd(H);
   S = diag(S);
 
@@ -22,7 +21,6 @@ function [x_L,x_H]= hsvd(x,L)
   endfor
   
   x_L = C(1,1:end);
-  for j=2:L 
-    x_H = C(j,1:end);
-  end
+  x_H = C(2:L,1:end);
+  x_H = sum(x_H);
 end
