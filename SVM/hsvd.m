@@ -1,29 +1,26 @@
-function [x_L,x_H]= hsvd(tSerie,lag)
- [H, M, L] = vect_reg(lag, tSerie);
-
-  [U,S,V] = svd(H);
+function [x_L,x_H]= hsvd(x,L)
+  N = columns(x);
   
-  U = U';
-  S = S';
-  V = V';
-
-  C = [];
-  for i=1:min(size(S))
-    aux = S(i,i)*U(i,:)'*V(i,:);
-    C = [C; aux(1,1:L) aux(2:M,L)'];
-    if i == 1
-      XLaux = aux;
-    else
-      if i == 2
-        XHaux = aux;
-      else
-        XHaux += aux;
-      end
+  #Columnas
+  M=N-L+1;
+  
+  #Matriz hankel
+  H = zeros(L,M);
+  for i=1:L
+    for j=1:M
+      H(i,j) = x(i+j-1);
     end
   end
+  [U,S,V] = svd(H);
+  S = diag(S);
+
+  C = zeros(L,N);
+  for i=1:L
+    A =(S(i) * U(1:end,i)) * V(1:end,i)';
+    C(i,1:end) = [A(1,1:M) A(2:L,M)'];
+  endfor
   
-  x_L = [XLaux(1, :) XLaux(2:size(XLaux)(1), size(XLaux)(2))'];
-  %x_L';
-  x_H = [XHaux(1, :) XHaux(2:size(XHaux)(1), size(XHaux)(2))'];
-  %x_H';
+  x_L = C(1,1:end);
+  x_H = C(2:L,1:end);
+  x_H = sum(x_H);
 end

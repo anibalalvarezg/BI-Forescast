@@ -22,7 +22,8 @@ result_ = zeros(length(M),length(H));
 for l=1:length(L)
   for m=1:length(M)
     for h=1:length(H)
-      aux_mse = result_test{l}.memory{m}.h{h}.mse;
+      aux_mse = result_test{l}.memory{m}.h{h}.mse
+      aux_mnse = result_test{l}.memory{m}.h{h}.mnsc
       if aux_mse < mse
         Param.L = l;
         Param.H = h;

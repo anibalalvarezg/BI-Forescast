@@ -1,6 +1,6 @@
 load_data
 L = [7];
-M = [20:30];
+M = [30];
 H = [1];
 
 Config.L = L;
@@ -10,8 +10,8 @@ Config.H = H;
 save(['','config_paramARX.mat'],'Config');
 
 train = true;
-test = true;
-best = true;
+test = false;
+best = false;
 
 %train
 if(train)
